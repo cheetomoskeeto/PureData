@@ -87,6 +87,10 @@ void polybang_onListMsg(t_polybang *x, t_symbol *s, t_int argc, t_atom *argv){
     }
 }
 
+void polybang_onResetMsg(t_polybang *x){
+    polybang_resetCount(x);
+}
+
 //Handle a "ratio" message consisting of two args: [ratio A B(
 void polybang_onRatioMsg(t_polybang *x, t_floatarg f1, t_floatarg f2){
     //New ratio received
@@ -174,6 +178,12 @@ void polybang_setup(void){
     
     //List: set the ratio and reset
     class_addlist(polybang_class, (t_method)polybang_onListMsg);
+    
+    //Reset: start counting at 0 again
+    class_addmethod(polybang_class,
+                    (t_method)polybang_onResetMsg,
+                    gensym("reset"),
+                    0);
     
     //Ratio: same as list
     class_addmethod(polybang_class,
