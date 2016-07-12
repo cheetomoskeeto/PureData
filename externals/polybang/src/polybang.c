@@ -57,11 +57,10 @@ void polybang_onBangMsg(t_polybang *x){
         x->current_count = 0;
     } else {
         // the current count % A == 0 will cause a bang to out_B
-        // This seems weird, but it is so that the inlets align vertically with the outlets
-        if(n % mod_A == 0) outlet_bang(x->out_B);
+        if(n % mod_A == 0) outlet_bang(x->out_A);
         
         //Same as above but with B
-        if(n % mod_B == 0) outlet_bang(x->out_A);
+        if(n % mod_B == 0) outlet_bang(x->out_B);
     }
     
     //Always output the current count
