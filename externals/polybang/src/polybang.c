@@ -101,13 +101,13 @@ void polybang_onRatioMsg(t_polybang *x, t_floatarg f1, t_floatarg f2){
 
 //Set A part of ratio; however, don't reset
 void polybang_onSet_A(t_polybang *x, t_floatarg f){
-    //New number for the left-half of the ratio received
-    polybang_setMods(x, f, x->mod_A);
+    //New number for A of A:B
+    polybang_setMods(x, f, x->mod_B);
 }
 
 //Set B part of ratio; however, don't reset
 void polybang_onSetB(t_polybang *x, t_floatarg f){
-    //New number for the right-half of the ratio received
+    //New number for B of A:B
     polybang_setMods(x, x->mod_A, f);
 }
 
