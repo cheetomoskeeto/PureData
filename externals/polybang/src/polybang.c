@@ -70,6 +70,10 @@ void polybang_onBangMsg(t_polybang *x){
     x->current_count++;
 }
 
+void polybang_onResetMsg(t_polybang *x){
+    polybang_resetCount(x);
+}
+
 //Handle lists: [A B(
 void polybang_onListMsg(t_polybang *x, t_symbol *s, t_int argc, t_atom *argv){
     switch(argc){
@@ -85,19 +89,6 @@ void polybang_onListMsg(t_polybang *x, t_symbol *s, t_int argc, t_atom *argv){
             error("[polybang ]: two arguments are needed to set a new ratio");
     }
 }
-
-void polybang_onResetMsg(t_polybang *x){
-    polybang_resetCount(x);
-}
-
-//Handle a "ratio" message consisting of two args: [ratio A B(
-void polybang_onRatioMsg(t_polybang *x, t_floatarg f1, t_floatarg f2){
-    //New ratio received
-    polybang_setMods(x, f1, f2);
-    
-    //Initialize the count
-    polybang_resetCount(x);
-};
 
 //Set A part of ratio; however, don't reset
 void polybang_onSet_A(t_polybang *x, t_floatarg f){
@@ -124,7 +115,7 @@ void *polybang_new(t_floatarg f1, t_floatarg f2){
     //Initialize the mods (e.g. num % mod_A)
     //Since we'll be doing this in a few different locations, we'll create a method to accomplish this
     polybang_setMods(x, f1, f2);
-    
+
     //Create inlets
     //The left-most inlet is created and destroyed automatically
     //Any additional inlets needed must be explicilty created
@@ -132,7 +123,7 @@ void *polybang_new(t_floatarg f1, t_floatarg f2){
     //Handles (pointers, really) are stored so that we can free them later
     x->in_mod_A = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("ratio_A"));
     x->in_mod_B = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("ratio_B"));
-    
+
     //Create outlets
     //Unlike the first inlet, the first isn' created automatically
     //Any outlets needed must be explicitly created
@@ -142,7 +133,7 @@ void *polybang_new(t_floatarg f1, t_floatarg f2){
     x->out_B = outlet_new(&x->x_obj, &s_bang);
     x->out_synch = outlet_new(&x->x_obj, &s_bang);
     x->out_count = outlet_new(&x->x_obj, &s_float);
-    
+      
     //Return the instance
     return (void *)x;
 }
@@ -174,7 +165,7 @@ void polybang_setup(void){
     
     //Bang
     class_addbang(polybang_class, (t_method)polybang_onBangMsg);
-    
+
     //List: set the ratio and reset
     class_addlist(polybang_class, (t_method)polybang_onListMsg);
     
@@ -183,15 +174,7 @@ void polybang_setup(void){
                     (t_method)polybang_onResetMsg,
                     gensym("reset"),
                     0);
-    
-    //Ratio: same as list
-    class_addmethod(polybang_class,
-                    (t_method)polybang_onRatioMsg,
-                    gensym("ratio"),
-                    A_DEFFLOAT, //A of A:B
-                    A_DEFFLOAT, //B of A:B
-                    0);
-    
+
     //ratio_A: set A but don't reset
     class_addmethod(polybang_class,
                     (t_method)polybang_onSet_A,

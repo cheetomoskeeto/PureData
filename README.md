@@ -5,6 +5,8 @@ Welcome to the Cheetomoskeeto Pure Data repository. Here you'll find source code
 ###Pure Data Tutorials on YouTube 
 
 - __Pure Data__
+	- [Creating Pure Data Externals in C (2016)](https://www.youtube.com/playlist?list=PLn3ODBv0ka5g_zKRpmgc58-Tj-Qn-P5qz)
+		- Take an hour to learn how to create your own control-rate external in C for Pure Data.
 	- [Pure Data tutorial playlist (2009)](https://www.youtube.com/watch?v=rtgGol-I4gA&list=PL12DC9A161D8DC5DC)
 		- This is the original playlist of Pure Data tutorials I published in 2009. Over 100k total views and counting!
 - __libPd__
